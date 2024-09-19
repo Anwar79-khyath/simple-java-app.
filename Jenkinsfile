@@ -1,13 +1,13 @@
 pipeline {
     agent any
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials-id')  // Jenkins credential ID for Docker Hub
+        DOCKERHUB_CREDENTIALS = credentials('sayyadanwar')  // Jenkins credential ID for Docker Hub
     }
     stages {
         stage('Clone Repository') {
             steps {
                 // Cloning the Git repository
-                git 'https://github.com/<your-username>/simple-java-app.git'
+                git 'https://github.com/sayyadanawr/simple-java-app.git'
             }
         }
         stage('Build with Maven') {
@@ -20,7 +20,7 @@ pipeline {
             steps {
                 script {
                     // Building the Docker image using the Dockerfile
-                    def app = docker.build("your-dockerhub-username/simple-java-app")
+                    def app = docker.build("sayyadanwar/simple-java-app")
                 }
             }
         }
@@ -29,7 +29,7 @@ pipeline {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', DOCKERHUB_CREDENTIALS) {
                         // Tagging and pushing the Docker image to Docker Hub
-                        def app = docker.build("your-dockerhub-username/simple-java-app")
+                        def app = docker.build("sayyadanwar/simple-java-app")
                         app.push("${env.BUILD_NUMBER}")  // Push the image tagged with build number
                         app.push("latest")  // Push the image with the 'latest' tag
                     }
